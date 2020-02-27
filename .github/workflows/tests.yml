@@ -1,0 +1,21 @@
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    - name: Unit Tests
+      run: npm run test
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v1
+      with:
+        name: code-coverage-report
+        path: coverage/lcov-report
+
+    - name: Monitor coverage
+      id: coverage-monitor
+      if: github.event_name == 'pull_request'
+      uses: slavcodev/coverage-monitor-action@1.0.1
+      with:
+        check: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        clover_file: 'coverage/clover.xml'
