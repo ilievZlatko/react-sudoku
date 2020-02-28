@@ -14,12 +14,4 @@ describe('shuffle', () => {
     expect(array).toContain(2)
     expect(array).toContain(3)
   })
-
-  it('returns an array in different order comparing to the original', () => {
-    const array = [1, 2, 3]
-    const originalArray = [1, 2, 3]
-    shuffle(array)
-    const isSameArray = JSON.stringify(array) === JSON.stringify(originalArray)
-    expect(isSameArray).toEqual(false)
-  })
 })

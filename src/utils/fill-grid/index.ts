@@ -1,7 +1,14 @@
 import { GRID, NUMBERS } from 'typings'
-import { shuffle } from 'utils'
+import {
+  checkGrid,
+  shuffle,
+  isInRow,
+  isInCol,
+  identifySquare,
+  isInSquare,
+} from 'utils'
 
-const gridExample = [
+const gridExample: GRID = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -31,8 +38,19 @@ function fillGrid(grid: GRID) {
 
     if (grid[row][col] === 0) {
       shuffle(numbers)
-      // Do stuff
-      // recursive
+
+      for (let value of numbers) {
+        if (!isInRow({ grid, row, value })) {
+          if (!isInCol({ col, grid, value })) {
+            const square = identifySquare({ col, grid, row })
+            if (!isInSquare({ square, value })) grid[row][col] = value
+
+            if (checkGrid(grid)) return true
+            else if (fillGrid(grid)) return true
+          }
+        }
+      }
+
       break
     }
 
